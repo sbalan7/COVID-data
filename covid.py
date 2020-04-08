@@ -3,9 +3,6 @@
 Created on Tue Apr  7 01:43:15 2020
 
 @author: Aalaap Nair & Shanmugha Balan
-
-@description: 1) Reads the .csv dataset and generates a dictionary output with date strings as keys, national infected 
-                 numbers as data
             
 """
 
