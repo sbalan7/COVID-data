@@ -201,6 +201,19 @@ def compareproperties(prop, df1, df1_name, df2, df2_name):
     plt.title(prop)
     plt.show()
 
+# A graph of the infected, dead and recovered in a country
+def countrysituation(df, country):
+    
+    plt.figure()
+    sns.set(style='dark')
+    
+    singlelineplot("Infected", df, "#da4272", "Infected")
+    singlelineplot("Dead", df, "#000000", "Dead")
+    singlelineplot("Recovered", df, "#10d260", "Recovered")
+    
+    plt.title(country)
+    plt.show()
+
 
 # Invoking the functions to build the DataFrames
 ind_df = make_ind_df(process_file("covid_19_india.csv"))
@@ -225,4 +238,7 @@ singlelineplot(prop, ita_df, "#26c0e5", label='Italy')
 
 plt.title(prop)
 plt.show()
+
+# Plotting the infected, dead and recovered in India
+countrysituation(ind_df, 'India')
 
