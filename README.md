@@ -12,6 +12,11 @@ The `compareproperties()` function works to make a line plot comparison of a pro
 
 ![Infected, India vs South Korea](https://github.com/sbalan7/COVID-data/blob/master/images/ind_vs_kor.png)
 
+The `countrysituation()` function makes a plot of the infected, dead and recovered for any one particular country.
+
+![India's infected, dead and recovered](https://github.com/sbalan7/COVID-data/blob/master/images/ind_situation.png)
+
+
 More info can be found [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
 
 I would also like to thank Aalaap Nair for helping me with this project.
