@@ -14,9 +14,7 @@ import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
 
-colors = ["#00FF00", "#0000FF"]
-sns.set_palette(sns.color_palette(colors))
-
+# Get the lines from the file to a processed list
 def process_file(file_dest):
 
     with open(file_dest, "r") as f:
@@ -28,6 +26,7 @@ def process_file(file_dest):
     del contents[0]  #deletes header row
     return contents
 
+# A specific DataFrame maker for the covid_19_india.csv
 def make_ind_df(contents, summary=False):
     
     infected=[]
@@ -79,6 +78,7 @@ def make_ind_df(contents, summary=False):
 
     return df
 
+# A specific DataFrame maker for the covid19_italy_region.csv 
 def make_ita_df(contents, summary=False):
     
     infected=[]
@@ -130,6 +130,7 @@ def make_ita_df(contents, summary=False):
 
     return df  
 
+# A specific DataFrame maker for the us_covid19_daily.csv
 def make_usa_df(contents, summary=False):
     
     infected=[]
@@ -159,6 +160,7 @@ def make_usa_df(contents, summary=False):
 
     return df  
 
+# A specific DataFrame maker for the covid19_korea.csv
 def make_kor_df(contents, summary=False):
     
     infected=[]
@@ -185,10 +187,12 @@ def make_kor_df(contents, summary=False):
 
     return df  
 
+# A simple despined line plot  
 def singlelineplot(prop, df, color, label):
     sns.lineplot(x='Days since first infection', y=prop, data=df, color=color, label=label)
     sns.despine()
 
+# A comparative line plot between two countries
 def compareproperties(prop, df1, df1_name, df2, df2_name):
         
     plt.figure()
@@ -201,34 +205,27 @@ def compareproperties(prop, df1, df1_name, df2, df2_name):
     plt.show()
 
 
+# Invoking the functions to build the DataFrames
 ind_df = make_ind_df(process_file("covid_19_india.csv"))
 ita_df = make_ita_df(process_file("covid19_italy_region.csv"))
 usa_df = make_usa_df(process_file("us_covid19_daily.csv"))
 kor_df = make_kor_df(process_file("covid19_korea.csv"))
 
+
 compareproperties("Infected", ind_df, "India", kor_df, "Korea")
 compareproperties("Infected", ita_df, "Italy", usa_df, "USA")
 
 
-'''
+# Comparing the infected of all 4 countries
+prop = 'Infected'
 plt.figure()
-x_col="Days since first infection"
-y_col="Infected"
-sns.lineplot(x=x_col, y=y_col, data=ind_df, color="green")
-sns.lineplot(x=x_col, y=y_col, data=kor_df, color="blue")
-#sns.pointplot(x=x_col, y=y_col, data=ita_df, color="red")
+sns.set(style='darkgrid')
 
+singlelineplot(prop, ind_df, "#173367", label='India')
+singlelineplot(prop, kor_df, "#f67bad", label='Korea')
+singlelineplot(prop, usa_df, "#00ff00", label='USA')
+singlelineplot(prop, ita_df, "#26c0e5", label='Italy')
 
-''
-f, ax = plt.subplots(1, 1, figsize=figsize)
-x_col='date'
-y_col = 'count'
-sns.pointplot(ax=ax,x=x_col,y=y_col,data=df_1,color='blue')
-sns.pointplot(ax=ax,x=x_col,y=y_col,data=df_2,color='green')
-sns.pointplot(ax=ax,x=x_col,y=y_col,data=df_3,color='red')
-df_1['region'] = 'A'
-df_2['region'] = 'B'
-df_3['region'] = 'C'
-df = pd.concat([df_1,df_2,df_3])
-sns.pointplot(ax=ax,x=x_col,y=y_col,data=df,hue='region')
-'''
+plt.title(prop)
+plt.show()
+
