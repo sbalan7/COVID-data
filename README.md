@@ -16,6 +16,10 @@ The `countrysituation()` function makes a plot of the infected, dead and recover
 
 ![India's infected, dead and recovered](https://github.com/sbalan7/COVID-data/blob/master/images/ind_situation.png)
 
+The `gifize()` function makes the plot into a gif.
+
+![Infected in Italy](https://github.com/sbalan7/COVID-data/blob/master/images/covid.gif)
+
 
 More info can be found [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
 
