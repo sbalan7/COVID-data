@@ -10,6 +10,8 @@ import csv
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+import imageio as io
+
 
 # Get the lines from the file to a processed list
 def process_file(file_dest):
@@ -214,17 +216,44 @@ def countrysituation(df, country):
     plt.title(country)
     plt.show()
 
-
+# Generates a plot with every progressing day
+def animate(df, prop, country):
+    
+    pics = []
+    rows = df.size/4
+    y_limit = max(df[prop]) 
+    title = str(prop + " in " + country)
+    for i in range(1, int(rows)):
+        plt.figure(figsize=(10,6))
+        plt.title(title, fontsize=20)
+        plt.xlim(0, rows)
+        plt.ylim(0, y_limit)
+        plt.xlabel('Days since first infection', fontsize=15)
+        plt.ylabel(prop, fontsize=15)    
+        data = df.iloc[:i]
+        sns.lineplot(x="Days since first infection", y=data[prop], data=data)
+        filename = str(str(prop) + "/" + str(i) + ".png")
+        plt.savefig(filename)
+        pics.append(filename)
+    return pics
+    
+# Converts the pictures to a gif
+def gifize(pics):
+    
+    images = []
+    for img in pics:
+        images.append(io.imread(img))
+    io.mimsave("covid.gif", images)
+        
+   
 # Invoking the functions to build the DataFrames
 ind_df = make_ind_df(process_file("covid_19_india.csv"))
 ita_df = make_ita_df(process_file("covid19_italy_region.csv"))
 usa_df = make_usa_df(process_file("us_covid19_daily.csv"))
 kor_df = make_kor_df(process_file("covid19_korea.csv"))
 
-
 compareproperties("Infected", ind_df, "India", kor_df, "Korea")
 compareproperties("Infected", ita_df, "Italy", usa_df, "USA")
-
 
 # Comparing the infected of all 4 countries
 prop = 'Infected'
@@ -241,4 +270,7 @@ plt.show()
 
 # Plotting the infected, dead and recovered in India
 countrysituation(ind_df, 'India')
+
+# Generating the increase of infected in Italy
+gifize(animate(ita_df, "Infected", "Italy"))
 
