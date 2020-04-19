@@ -3,7 +3,6 @@
 Created on Tue Apr 14 18:25:09 2020
 
 Author: Aalaap Nair
-
 Description: Generates forest fire plots to model the spatial distribution of a disease in time
 
 """
@@ -25,16 +24,15 @@ import matplotlib.pyplot as plt
 import time
 
 
-#specifies lockdown zones by start vertex coordinates(x_start,y_start) and side-length(a) 
-def lockdown(X,x_start,y_start,a):
+# Specifies lockdown zones with the zone, start coordinates of patient zero and side-length(a) 
+def lockdown(X, x_start, y_start, a):
     
     X[x_start:x_start+a+1,y_start]=0
     X[x_start,y_start:y_start+a+1]=0
     X[x_start+a,y_start:y_start+a+1]=0
     X[x_start:x_start+a+1,y_start+a]=0
     
-
-#likelihood of disease for an exposed individual
+# Likelihood of disease for an exposed individual
 def likelihood_disease():
     m=randint(1,14)
     if m<=7:
@@ -42,8 +40,9 @@ def likelihood_disease():
     else:
         return 1
  
-#likelihood of whether the infecteded individual recovers(0), dies(1) or remains infected(2)
+# Likelihood of whether the infecteded individual recovers(0), dies(1) or remains infected(2)
 def likelihood_severe():
+
     m=randint(1,100)
     if m<=11:
         return 0
@@ -52,9 +51,8 @@ def likelihood_severe():
     else:
         return 2
 
-#returns the first neighbours of an individual cell, offers edge and corner control
+# Returns the first neighbours of an individual cell, offers edge and corner control
 def neighb(X,i,j):
-    
     
     if i>0 and j>0:
         return X[i-1:i+2,j-1:j+2]
@@ -68,8 +66,7 @@ def neighb(X,i,j):
     else:
         return X[:i+2,:j+2]
     
-        
-#changes the state of the frame X to the next point in time
+# Changes the state of the frame X to the next point in time
 def state_change(X,T):
     
     Y=X.copy()
@@ -114,7 +111,7 @@ def state_change(X,T):
             
     return Y
  
-#maps the entries of X to a forest fire plot                   
+# Maps the entries of X to a forest fire plot                   
 def render(X):
     
     C=np.zeros((len(X),len(X),3))
@@ -166,40 +163,32 @@ def render(X):
 
     return C
 
-#****************************************************************************            
 
-N=11 #size of pupulation = N**2
+####################################################################
+
+
+# Size of population = N**2
+N=11 
+# The number of days the simulation runs for
+lim = 60
 
 X=np.array([[1]*N]*N)
 T=np.array([[0]*N]*N)
 
-#Initial conditions:
+# Initial conditions:
 X[int(round(N/2)-1),int(round(N/2)-1)]=3
-
-#X[24,24]=3
-#X[74,74]=3
-#X[24,74]=3
-#X[74,24]=3
-#lockdown(X,14,14,20)
-#lockdown(X,64,64,20)
-#lockdown(X,14,64,20)
-#lockdown(X,64,14,20)
-
 
 C=render(X)
 plt.savefig("fig0.png")
 
-
+# The gap between frames
 time.sleep(5)
-lim=60 #number of days
 
 for k in range(lim):
-    
     X=state_change(X,T)
     if k%1==0:
         C=render(X)
         plt.savefig("fig"+str(k+1)+".png")
     if k==1:
         lockdown(X,2,2,6)
-
 
