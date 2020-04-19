@@ -41,6 +41,7 @@ def make_ind_df(contents, summary=False):
     dates=[]
     x = 0
     
+    # The data is made cumulative in this loop
     for i in range(len(contents)):
         
         if contents[i][1]==date_str:
@@ -93,6 +94,7 @@ def make_ita_df(contents, summary=False):
     dates=[]
     x = 0
     
+    # The data is made cumulative in this loop
     for i in range(len(contents)):
         
         if contents[i][1]==date_str:
@@ -217,6 +219,7 @@ def countrysituation(df, country):
     plt.show()
 
 # Generates a plot with every progressing day
+# Primarily, a feeder function for gifize()
 def animate(df, prop, country):
     
     pics = []
@@ -252,8 +255,9 @@ ita_df = make_ita_df(process_file("covid19_italy_region.csv"))
 usa_df = make_usa_df(process_file("us_covid19_daily.csv"))
 kor_df = make_kor_df(process_file("covid19_korea.csv"))
 
+# Comparing stats in two countries
 compareproperties("Infected", ind_df, "India", kor_df, "Korea")
-compareproperties("Infected", ita_df, "Italy", usa_df, "USA")
+compareproperties("Dead", ita_df, "Italy", usa_df, "USA")
 
 # Comparing the infected of all 4 countries
 prop = 'Infected'
